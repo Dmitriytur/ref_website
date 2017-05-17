@@ -17,7 +17,7 @@
             </ul>
             <ul th:if="${authorized}" class="nav navbar-nav navbar-right">
                 <li><a href="/profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                <li><a href="/profile/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
             </ul>
             <ul th:if="${not authorized}" class="nav navbar-nav navbar-right">
                 <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
