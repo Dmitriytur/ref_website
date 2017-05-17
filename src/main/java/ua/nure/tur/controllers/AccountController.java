@@ -2,7 +2,6 @@ package ua.nure.tur.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.stereotype.Controller;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.nure.tur.config.ConfigURL;
-import ua.nure.tur.entity.User;
+import ua.nure.tur.entities.User;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -50,7 +49,9 @@ public class AccountController {
                 .header("content-type", "application/json")
                 .body(user)
                 .asString();
-        session.setAttribute("access_token", message.getBody());
+        if (message.getStatus() == 200) {
+            session.setAttribute("access_token", message.getBody());
+        }
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)

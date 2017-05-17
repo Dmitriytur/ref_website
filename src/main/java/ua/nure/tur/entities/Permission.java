@@ -1,4 +1,4 @@
-package ua.nure.tur.entity;
+package ua.nure.tur.entities;
 
 public class Permission {
 

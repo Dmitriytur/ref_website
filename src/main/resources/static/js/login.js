@@ -14,7 +14,7 @@ $( "#authorize" ).click(function() {
     dataType: 'text',
     data: JSON.stringify(data),
     success: function (response) {
-        window.location.pathname = "/home";
+        window.location.pathname = "/profile";
     }
 });
 });

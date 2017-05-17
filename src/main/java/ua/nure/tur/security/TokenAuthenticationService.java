@@ -37,23 +37,21 @@ public class TokenAuthenticationService {
 
     static Authentication getAuthentication(HttpServletRequest request) {
         Object tokenAttribute = request.getSession().getAttribute("access_token");
-        String token;
-        if (tokenAttribute == null){
-            token = request.getHeader(HEADER_STRING);
-        }
-        else {
-            token =  tokenAttribute.toString();
-        }
-
+        String token = tokenAttribute.toString();
 
         if (token != null) {
-            String user = Jwts.parser()
+            String id = Jwts.parser()
                     .setSigningKey(SECRET)
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
-            return user != null ?
-                    new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
+            String role = Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                    .getBody()
+                    .getAudience();
+            return id != null && role != null ?
+                    new UsernamePasswordAuthenticationToken(id, role, emptyList()) :
                     null;
         }
         return null;
