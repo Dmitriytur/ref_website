@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TestPage</title>
+    <script src="../static/js/jquery.js" th:src="@{/js/jquery.js}" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" />
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" />
+
+</head>
+
+<body>
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                        <h2 class="panel-title">Recent data</h2>
+                    </div>
+                <div class="panel-heading">
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class=" col-md-12 col-lg-12 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Location X:</td>
+                                        <td th:if="${state.locationPermitted}" th:text="${state.x}"></td>
+                                        <td th:unless="${state.locationPermitted}" >No permission</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Location Y:</td>
+                                        <td th:if="${state.locationPermitted}" th:text="${state.y}"></td>
+                                        <td th:unless="${state.locationPermitted}" >No permission</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Temperature:</td>
+                                        <td th:if="${state.biometryPermitted}" th:text="${state.temperature}"></td>
+                                        <td th:unless="${state.biometryPermitted}" >No permission</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Breathing rate:</td>
+                                        <td th:if="${state.biometryPermitted}" th:text="${state.breathing}"></td>
+                                        <td th:unless="${state.biometryPermitted}" >No permission</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Heart rate:</td>
+                                        <td th:if="${state.biometryPermitted}" th:text="${state.hearth}"></td>
+                                        <td th:unless="${state.biometryPermitted}" >No permission</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../static/js/user_info.js" th:src="@{/js/user_info.js}" />
+
+</html>

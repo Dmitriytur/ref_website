@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ua.nure.tur.apiutils.ApiProvider;
 import ua.nure.tur.config.ConfigURL;
 import ua.nure.tur.entities.User;
+import ua.nure.tur.models.MessageHandler;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,15 +29,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
-    public String register(@RequestBody String user ) throws UnirestException {
-
-        HttpResponse<String> message = Unirest.post(ConfigURL.getApiURL() + "/register")
-                .header("content-type", "application/json")
-                .body(user)
-                .asString();
-        return message.getBody();
-
+    public MessageHandler register(@RequestBody String user )  {
+        return  ApiProvider.post("/register", user, String.class);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -44,24 +39,19 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public void login(@RequestBody String user, HttpSession session) throws UnirestException {
-        HttpResponse<String> message = Unirest.post(ConfigURL.getApiURL() + "/login")
-                .header("content-type", "application/json")
-                .body(user)
-                .asString();
-        if (message.getStatus() == 200) {
-            session.setAttribute("access_token", message.getBody());
+    public MessageHandler<String> login(@RequestBody String user, HttpSession session)  {
+        MessageHandler<String> result = ApiProvider.post("/login", user, String.class);
+        if (result.getStatus() == 200) {
+            session.setAttribute("access_token", result.getData());
         }
+        return result;
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(Model model, HttpSession session) throws UnirestException, IOException {
-        HttpResponse<String> response = Unirest.get(ConfigURL.getApiURL() + "/getProfile")
-                .header("content-type", "application/json")
-                .header("Authorization", session.getAttribute("access_token").toString())
-                .asString();
-        User user =  new ObjectMapper().readValue(response.getBody(), User.class);
-        model.addAttribute("user", user);
+    public String profile(Model model, HttpSession session)  {
+        String token = session.getAttribute("access_token").toString();
+        MessageHandler<User> result = ApiProvider.get("/profile", User.class, token);
+        model.addAttribute("user", result.getData());
         return "profile";
     }
 

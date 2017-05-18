@@ -37,7 +37,14 @@ public class TokenAuthenticationService {
 
     static Authentication getAuthentication(HttpServletRequest request) {
         Object tokenAttribute = request.getSession().getAttribute("access_token");
-        String token = tokenAttribute.toString();
+        String token;
+
+        if (tokenAttribute != null){
+            token =  tokenAttribute.toString();
+        }
+        else {
+            return  null;
+        }
 
         if (token != null) {
             String id = Jwts.parser()

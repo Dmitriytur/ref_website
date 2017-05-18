@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TestPage</title>
+    <script src="../static/js/jquery.js" th:src="@{/js/jquery.js}" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" />
+    <script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" />
+
+</head>
+
+<body>
+    <div th:replace="fragments/header :: header"></div>
+    <div class="container">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="/profile">Profile</a></li>
+                <li class="active"><a href="/permissions">My permissions</a></li>
+                <li><a href="/setup">Set up permissions</a></li>
+                <li><a href="/device">Register device</a></li>
+
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Location</th>
+                        <th>Biometry</th>
+                        <th>Access</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="perm : ${perms}">
+                        <td th:text="${perm.username}">Column content</td>
+                        <td th:text="${perm.location}">Column content</td>
+                        <td th:text="${perm.biometry}">Column content</td>
+                        <td><a  th:href="${'/userinfo/' + perm.userId}" class="btn btn-primary  btn-sm">Info</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script src="../static/js/permissions.js" th:src="@{/js/permissions.js}" />
+
+</html>
